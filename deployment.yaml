@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: oms-product
-        image: manishsrivastavaggn/oms-product:changeMePlease
+        image: manishsrivastavaggn/oms-products:changeMePlease
         ports:
         - containerPort: 8080
         
