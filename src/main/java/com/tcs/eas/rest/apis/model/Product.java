@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import io.swagger.annotations.ApiModel;
 
 /**
@@ -29,7 +31,9 @@ public class Product implements Serializable {
 	private static final long serialVersionUID = -8691676148924563243L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GenericGenerator(name = "product_id", strategy = "com.tcs.eas.rest.apis.utility.KeyGenerator")
+	@GeneratedValue(generator = "product_id") 
 	private int productid;
 	
 	@NotNull(message="productname field is missing")

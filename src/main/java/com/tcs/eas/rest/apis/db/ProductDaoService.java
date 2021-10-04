@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -26,6 +27,12 @@ public class ProductDaoService {
 
 	@Autowired
 	LoggingService loggingService;
+	
+	@Value(value = "${INVENTORY_SERVICE_HOST}")
+	private String inventoryServiceHost;
+
+	@Value(value = "${INVENTORY_SERVICE_PORT}")
+	private int inventoryServicePort;
 
 	/**
 	 * 
@@ -54,10 +61,13 @@ public class ProductDaoService {
 		if (key == null || !key.equals(adminKey)) {
 			RestTemplate restTemplate = new RestTemplate();
 			for (Product product : products) {
-				String fooResourceUrl = "http://oms-inventory-svc.app.svc.cluster.local:8080/apis/v1/inventories/products/"
+				//String fooResourceUrl = "http://oms-inventory-svc.app.svc.cluster.local:8080/apis/v1/inventories/products/"
+					//	+ product.getProductid();
+				String productUrl = "http://" + inventoryServiceHost + ":" + inventoryServicePort + "/apis/v1/inventories/products/"
 						+ product.getProductid();
+				
 				try {
-					ResponseEntity<Inventory> response = restTemplate.getForEntity(fooResourceUrl, Inventory.class);
+					ResponseEntity<Inventory> response = restTemplate.getForEntity(productUrl, Inventory.class);
 					Inventory inventory = response.getBody();
 					if (inventory.getAvailablequantity() > inventory.getMinquantity()) {
 						productDetails.add(product);

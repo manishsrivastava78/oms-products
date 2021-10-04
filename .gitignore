@@ -10,3 +10,8 @@ test/reports/*
 .classpath
 data
 data/
+target/**
+.classpath
+.project
+.settings/
+target/

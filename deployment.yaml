@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: oms-product
-  namespace: app
+  namespace: product-domain
   labels:
     app: oms-product
 spec:
